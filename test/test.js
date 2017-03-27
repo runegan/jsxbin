@@ -74,9 +74,9 @@ describe( 'jsxbin', function() {
 	} )
 
 	it( 'should work when there are spaces in the filename', function() {
-		const input = path.join( inputDir, 'test1.jsx' )
+		const input = path.join( inputDir, 'test space 1.jsx' )
 		return jsxbin( input, outputDir ).then( () => {
-			const expectedOutputFile = path.join( outputDir, 'test1.jsxbin' )
+			const expectedOutputFile = path.join( outputDir, 'test space 1.jsxbin' )
 			return fs.accessSync( expectedOutputFile )
 		} )
 	} )
