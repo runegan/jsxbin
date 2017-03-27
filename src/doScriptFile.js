@@ -1,4 +1,5 @@
 const exec = require( 'child_process' ).exec
+const fs = require( 'fs' )
 
 const log = require( './logger' )
 
@@ -29,26 +30,48 @@ function getESTKCommand( scriptFile ) {
 }
 
 function getESTKPath() {
+	let path = null
 
 	// OSX
 	if ( process.platform === 'darwin' ) {
-
-		// FIXME: Do not assume path to ESTK is always this
-		const path = '/Applications/Adobe ExtendScript Toolkit CC/ExtendScript Toolkit.app/Contents/MacOS/ExtendScript Toolkit'
-
-		return path
+		path = checkPaths( '/Applications/Adobe ExtendScript Toolkit CC/ExtendScript Toolkit.app/Contents/MacOS/ExtendScript Toolkit',
+			'/Applications/Adobe ExtendScript Toolkit CC/ExtendScript Toolkit.app/Contents/MacOS/ExtendScript Toolkit',
+			'/Applications/Utilities/Adobe Utilities - CS6.localized/ExtendScript Toolkit CS6/ExtendScript Toolkit.app/Contents/MacOS/ExtendScript Toolkit'
+		)
 
 	// Windows
 	} else if ( process.platform === 'win32' ) {
+		path = checkPaths( 'C:\\Program Files ^(x86)\\Adobe\\Adobe ExtendScript Toolkit CC\\ExtendScript Toolkit.exe',
+			'C:\\Program Files ^(x86)\\Adobe\\Adobe ExtendScript Toolkit\\ExtendScript Toolkit.exe'
+		)
 
-		// FIXME: Do not assume path to ESTK is always this
-		const path = 'C:\\Program Files ^(x86)\\Adobe\\Adobe ExtendScript Toolkit CC\\ExtendScript Toolkit.exe'
-
-		return path.replace( / /g, '\^ ' )
+		if ( path !== null ) {
+			path = path.replace( / /g, '\^ ' )
+		}
 
 	// Linux
 	} else {
 		throw Error( `Platform ${process.platform} is not supported` )
+	}
+
+	log.debug( 'ESTK Path:', path )
+	if ( path === null ) {
+		throw Error( 'Could not find ExtendScript Toolkit installation' )
+	}
+	return path
+
+	function checkPaths( ...paths ) {
+		let thePath = null
+
+		// Return the first existing path
+		paths.forEach( path => {
+			if ( fs.existsSync( path ) ) {
+				thePath = path
+				return false
+			}
+		} )
+
+		return thePath
 	}
 }
 
