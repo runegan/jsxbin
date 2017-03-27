@@ -83,7 +83,3 @@ to get the function, or
 npm install jsxbin -g
 ```
 to get the command.
-
-# TODO
-
-- [ ] Check if ESTK is installed and return the correct path to it
