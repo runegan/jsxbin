@@ -7,13 +7,22 @@ module.exports = function doScriptFile( file ) {
 
 	// An alert comes from ESTK if it already open when running the command
 	// So we need to close it before running the command
-	quitESTK()
+	return quitESTK()
+		.then( () => execute( file ) )
+}
 
+function execute( file ) {
+	const command = getESTKCommand( file )
+
+	log.verbose( 'Converting' )
+	log.debug( 'Command: ', command )
+
+		// Execute the command
+	return execPromise( command )
+}
+
+function execPromise( command ) {
 	return new Promise( ( resolve, reject ) => {
-		const command = getESTKCommand( file )
-
-		log.verbose( 'Converting' )
-		log.debug( 'Command: ', command )
 
 		// Execute the command
 		exec( command, err => {
@@ -80,11 +89,11 @@ function quitESTK() {
 
 	// OSX
 	if ( process.platform === 'darwin' ) {
-		exec( 'osascript -e \'quit app "ExtendScript Toolkit"\'' )
+		return execPromise( 'osascript -e \'quit app "ExtendScript Toolkit"\'' )
 
 	// Windows
 	} else if ( process.platform === 'win32' ) {
-		exec( 'taskkill /IM ExtendScript Toolkit.exe' )
+		return execPromise( 'taskkill /IM ExtendScript Toolkit.exe' )
 
 	// Linux
 	} else {
