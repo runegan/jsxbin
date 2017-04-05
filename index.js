@@ -12,6 +12,8 @@ const doScriptFile = require( './src/doScriptFile' )
 log.level = '0'
 
 module.exports = jsxbin
+module.exports.getInputPaths = getInputPaths
+module.exports.getOutputPaths = getOutputPaths
 
 /**
  * Converts input file into jsxbin file using ExtendScript Toolkit
