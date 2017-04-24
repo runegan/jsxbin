@@ -67,7 +67,7 @@ function createScriptContent( input, output ) {
 			fileOut.write( t );
 			fileOut.close();
 		} catch ( err ) {
-			alert( fileIn.name + "\\n" + err );
+			alert( "Error!\\nFile: " + fileIn.fsName + "\\n" + err );
 			return;
 		}
 	}`
