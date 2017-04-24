@@ -81,4 +81,11 @@ describe( 'jsxbin', function() {
 		} )
 	} )
 
+	it( 'should work when files use #include', function() {
+		const input = path.join( inputDir, 'testInclude.jsx' )
+		return jsxbin( input, outputDir ).then( () => {
+			const expectedOutputFile = path.join( outputDir, 'testInclude.jsxbin' )
+			return fs.accessSync( expectedOutputFile )
+		} )
+	} )
 } )
