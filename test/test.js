@@ -104,4 +104,33 @@ describe( 'jsxbin', function() {
 			assert.deepEqual( output, expectedOutput, 'output == expectedOutput' )
 		} )
 	} )
+
+	it( 'should create jsxbin file in the same place as the input when no output is given', function() {
+		const input = [
+			path.join( inputDir, 'test1.jsx' ),
+			path.join( inputDir, 'test2.jsx' )
+		]
+
+		const expectedOutput = [
+			path.join( inputDir, 'test1.jsxbin' ),
+			path.join( inputDir, 'test2.jsxbin' )
+		]
+
+		return jsxbin( input, expectedOutput ).then( output => {
+			assert.deepEqual( output, expectedOutput, 'output == expectedOutput' )
+			output.forEach( fs.unlinkSync )
+		} )
+	} )
+
+	it( 'should work when only passed a glob', function() {
+		const expectedOutput = [
+			path.join( inputDir, 'test1.jsxbin' ),
+			path.join( inputDir, 'test2.jsxbin' )
+		]
+
+		return jsxbin( `${inputDir}/*.jsx` ).then( output => {
+			expectedOutput.forEach( fs.accessSync )
+			output.forEach( fs.unlinkSync )
+		} )
+	} )
 } )

@@ -19,13 +19,13 @@ module.exports.getOutputPaths = getOutputPaths
  * Converts input file into jsxbin file using ExtendScript Toolkit
  * @function jsxbin
  * @param  {string|string[]} inputPaths  The file or files to convert, can be in
- *                                       glob paths (``*.jsx`) or regular paths
- *                                       that point to files, not directories
- *                                       (`/path/to/script.jsx`)
- * @param  {string|string[]} outputPath The output file or output directory,
- *                                      or an array of output files
+ *         glob paths (``*.jsx`) or regular paths that point to files,
+ *         not directories (`/path/to/script.jsx`)
+ * @param  {string|string[]} [outputPath] The output file or output directory,
+ *         or an array of output files. If not given, the files will be created
+ *         in the same location as the input file(s)
  * @return {Promise} A Promise that returns an array of file paths to the
- *                   converted files
+ *         converted files
  */
 function jsxbin( inputPaths, outputPath ) {
 
@@ -45,6 +45,9 @@ function jsxbin( inputPaths, outputPath ) {
 
 		// We also have to convert outputPath into an array of absolute paths
 		output = getOutputPaths( input, outputPath )
+		if ( outputPath === undefined ) {
+			outputPath = output[ 0 ]
+		}
 		log.verbose( 'Converting', input, 'to', output )
 	} )
 
@@ -115,6 +118,13 @@ function getOutputPaths( inputPaths, outputPath ) {
 			throw new Error( 'jsxbin error: When passing an array as output it must have the same length as number of files in input' )
 		}
 		return outputPath
+	}
+
+	if ( outputPath === undefined ) {
+		return inputPaths.map( filePath => {
+			const extension = path.extname( filePath )
+			return filePath.replace( extension, '.jsxbin' )
+		} )
 	}
 
 	// Check if outputPath is directory
