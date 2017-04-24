@@ -8,9 +8,8 @@ module.exports = function createDirs( pathsToCreate ) {
 		return createDir( pathsToCreate )
 	}
 
-	pathsToCreate.map( createDir )
-
-	return Promise.all( pathsToCreate )
+	const promises = pathsToCreate.map( createDir )
+	return Promise.all( promises )
 }
 
 
