@@ -3,7 +3,18 @@ const mkdirp = require( 'mkdirp' )
 
 const log = require( './logger' )
 
-module.exports = function createDir( pathToCreate ) {
+module.exports = function createDirs( pathsToCreate ) {
+	if ( !Array.isArray( pathsToCreate ) ) {
+		return createDir( pathsToCreate )
+	}
+
+	pathsToCreate.map( createDir )
+
+	return Promise.all( pathsToCreate )
+}
+
+
+function createDir( pathToCreate ) {
 	return new Promise( ( resolve, reject ) => {
 		log.debug( 'creating output dir', pathToCreate )
 

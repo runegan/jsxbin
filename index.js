@@ -22,7 +22,8 @@ module.exports.getOutputPaths = getOutputPaths
  *                                       glob paths (``*.jsx`) or regular paths
  *                                       that point to files, not directories
  *                                       (`/path/to/script.jsx`)
- * @param  {string} outputPath The output file or output directory
+ * @param  {string|string[]} outputPath The output file or output directory,
+ *                                      or an array of output files
  * @return {Promise} A Promise that returns an array of file paths to the
  *                   converted files
  */
@@ -108,6 +109,13 @@ function getInputPaths( inputPaths ) {
 
 function getOutputPaths( inputPaths, outputPath ) {
 	const output = []
+
+	if ( Array.isArray( outputPath ) ) {
+		if ( outputPath.length !== inputPaths.length ) {
+			throw new Error( 'jsxbin error: When passing an array as output it must have the same length as number of files in input' )
+		}
+		return outputPath
+	}
 
 	// Check if outputPath is directory
 	if ( !/\.jsxbin$/.test( outputPath ) ) {

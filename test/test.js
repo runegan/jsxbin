@@ -88,4 +88,20 @@ describe( 'jsxbin', function() {
 			return fs.accessSync( expectedOutputFile )
 		} )
 	} )
+
+	it( 'should work when passing an array as output', function() {
+		const input = [
+			path.join( inputDir, 'test1.jsx' ),
+			path.join( inputDir, 'test2.jsx' )
+		]
+
+		const expectedOutput = [
+			path.join( outputDir, 'test1.jsxbin' ),
+			path.join( outputDir, 'test2.jsxbin' )
+		]
+
+		return jsxbin( input, expectedOutput ).then( output => {
+			assert.deepEqual( output, expectedOutput, 'output == expectedOutput' )
+		} )
+	} )
 } )
