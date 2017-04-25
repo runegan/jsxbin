@@ -9,14 +9,6 @@
         "jquery"
     ],
     "rules": {
-        "indent": [
-            "error",
-            "tab"
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
         "max-len": [
             "warn",
             {
