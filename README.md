@@ -10,10 +10,10 @@ const jsxbin = require( 'jsxbin' )
 jsxbin( 'path/to/script.js', 'output/script.jsxbin' )
 	.then( outputfiles => {
 		console.log( 'Finished!' )
-	} )
+	})
 	.catch( err => {
 		console.error( err )
-	} )
+	})
 ```
 
 (You have to have [ExtendScript Toolkit](http://www.adobe.com/products/extendscript-toolkit.html) installed for this package to work.)
@@ -33,6 +33,8 @@ jsxbin( 'path/to/script.js', 'output/script.jsxbin' )
 - String path for what to name converted file. `path/to/script.jsxbin`
 	- Should only be used when passing only one file as `inputPaths`
 - String path to folder where converted file will be placed. `path/to/output`
+- Array with string paths with names for all converted files
+	- Should only be used when passing an array to `inputPaths`, and it is the same length
 
 `jsxbin` returns a promise with an array of file paths to the converted files
 
@@ -43,7 +45,7 @@ jsxbin( 'path/to/script.js', 'output/script.jsxbin' )
 jsxbin( 'script.jsx', 'script.jsxbin' )
 
 // Multiple files
-jsxbin( [ 'script1.jsx', 'script2.jsx' ], 'output/' )
+jsxbin([ 'script1.jsx', 'script2.jsx' ], 'output/' )
 
 // Using glob string for input
 jsxbin( 'src/*.jsx', 'output' )
@@ -83,3 +85,7 @@ to get the function, or
 npm install jsxbin -g
 ```
 to get the command.
+
+# Contributing
+
+Issues and pull requests are more than welcome. Please ensure you have tests for your pull requests, and that `npm test` passes.
