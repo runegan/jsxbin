@@ -1,6 +1,6 @@
 {
   "name": "jsxbin",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Convert jsx ExtendScript files into jsxbin files using ExtendScript Toolkit",
   "keywords": [
     "after effects",
