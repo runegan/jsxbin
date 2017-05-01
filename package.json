@@ -24,7 +24,7 @@
   },
   "repository": "github:runegan/jsxbin",
   "scripts": {
-    "test": "mocha"
+    "test": "eslint . && mocha"
   },
   "dependencies": {
     "command-line-args": "^4.0.2",
