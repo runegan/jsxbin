@@ -1,12 +1,27 @@
 const tmp = require( 'tmp-promise' )
 const writeFile = require( 'fs' ).writeFile
+const path = require( 'path' )
 
 const log = require( './logger' )
 
-module.exports = function generateScriptFile( input, output ) {
+module.exports = function generateScriptFiles( inputs, outputs ) {
+	const list = generateInputList( inputs, outputs )
+
+	const scripts = []
+
+	Object.keys( list ).forEach( dir => {
+		const { input, output } = list[dir]
+		const script = generateScriptFile( dir, input, output )
+		scripts.push( script )
+	})
+
+	return Promise.all( scripts )
+}
+
+function generateScriptFile( dir, input, output ) {
 	// We need to create a temp file that ESTK can run, this file will have
 	// all paths that are going to be converted
-	return tmp.file({ postfix: '.jsx' })
+	return tmp.file({ dir, postfix: '.jsx' })
 
 	// "tmp.file" returns an object with the more properties, but we are only
 	// interested in the path property
@@ -74,4 +89,23 @@ function createScriptContent( input, output ) {
 	log.debug({ script })
 
 	return script
+}
+
+
+function generateInputList( inputs, outputs ) {
+	const dirs = {}
+	inputs.forEach( ( input, index ) => {
+		const dirname = path.dirname( input )
+		if ( !dirs[dirname] ) {
+			dirs[dirname] = {
+				input: [],
+				output: []
+			}
+		}
+		const output = outputs[index]
+		dirs[dirname].input.push( input )
+		dirs[dirname].output.push( output )
+	})
+
+	return dirs
 }

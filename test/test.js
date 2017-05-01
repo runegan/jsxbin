@@ -10,6 +10,7 @@ describe( 'jsxbin', function () {
 
 	const outputDir = path.join( __dirname, 'output' )
 	const inputDir = path.join( __dirname, 'testfiles' )
+	const inputDir2 = path.join( __dirname, 'testfiles2' )
 
 	function cleanup( done ) {
 		rimraf( outputDir, () => {
@@ -88,6 +89,22 @@ describe( 'jsxbin', function () {
 		})
 	})
 
+	it( 'should work when files use #include in two directories', function () {
+		const input = [
+			path.join( inputDir, 'testInclude.jsx' ),
+			path.join( inputDir2, 'testInclude2.jsx' )
+		]
+
+		const expectedOutput = [
+			path.join( outputDir, 'testInclude.jsxbin' ),
+			path.join( outputDir, 'testInclude2.jsxbin' )
+		]
+
+		return jsxbin( input, outputDir ).then( () => {
+			expectedOutput.forEach( f => fs.accessSync( f ) )
+		})
+	})
+
 	it( 'should work when passing an array as output', function () {
 		const input = [
 			path.join( inputDir, 'test1.jsx' ),
@@ -127,8 +144,7 @@ describe( 'jsxbin', function () {
 			path.join( inputDir, 'test2.jsxbin' )
 		]
 
-		// TODO: Fix !(testInclude) when that file also works
-		return jsxbin( `${inputDir}/!(testInclude).jsx` ).then( output => {
+		return jsxbin( `${inputDir}/*.jsx` ).then( output => {
 			expectedOutput.forEach( f => fs.accessSync( f ) )
 			output.forEach( fs.unlinkSync )
 		})
