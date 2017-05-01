@@ -19,7 +19,6 @@ function createDir( pathToCreate ) {
 
 		// Check if it is a file or a direcory
 		if ( /\.jsxbin$/.test( pathToCreate ) ) {
-
 			// If it is a file, get the parent folder
 			log.debug( 'Is not dir', pathToCreate )
 			pathToCreate = path.dirname( pathToCreate )
@@ -32,6 +31,6 @@ function createDir( pathToCreate ) {
 				return reject( err )
 			}
 			resolve()
-		} )
-	} )
+		})
+	})
 }

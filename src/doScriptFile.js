@@ -4,7 +4,6 @@ const fs = require( 'fs' )
 const log = require( './logger' )
 
 module.exports = function doScriptFile( file ) {
-
 	// An alert comes from ESTK if it already open when running the command
 	// So we need to close it before running the command
 	return quitESTK()
@@ -23,15 +22,14 @@ function execute( file ) {
 
 function execPromise( command ) {
 	return new Promise( ( resolve, reject ) => {
-
 		// Execute the command
 		exec( command, err => {
 			if ( err ) {
 				return reject( err )
 			}
 			resolve()
-		} )
-	} )
+		})
+	})
 }
 
 function getESTKCommand( scriptFile ) {
@@ -55,7 +53,7 @@ function getESTKPath() {
 		)
 
 		if ( path !== null ) {
-			path = path.replace( / /g, '\^ ' )
+			path = path.replace( / /g, '^ ' )
 		}
 
 	// Linux
@@ -78,7 +76,7 @@ function getESTKPath() {
 				thePath = path
 				return false
 			}
-		} )
+		})
 
 		return thePath
 	}
@@ -94,9 +92,6 @@ function quitESTK() {
 	// Windows
 	} else if ( process.platform === 'win32' ) {
 		return execPromise( 'taskkill /IM ExtendScript Toolkit.exe' )
-
-	// Linux
-	} else {
-		throw Error( `Platform ${process.platform} is not supported` )
 	}
+	throw Error( `Platform ${process.platform} is not supported` )
 }

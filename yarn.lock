@@ -313,9 +313,9 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-config-jquery@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-jquery/-/eslint-config-jquery-1.0.1.tgz#a7fdd7bbc98a654bc77139c1f5535fadf0df23c8"
+eslint-config-runegan@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-runegan/-/eslint-config-runegan-1.0.0.tgz#5f0aea96cff16195bd10d63a0e5974cd97fd0343"
 
 eslint@^3.18.0:
   version "3.18.0"

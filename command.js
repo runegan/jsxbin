@@ -10,10 +10,10 @@ const optionDefinitions = [
 	{ name: 'output', alias: 'o', type: String },
 	{ name: 'verbose', alias: 'v', type: Boolean },
 	{ name: 'debug', type: Boolean },
-	{ name: 'help', alias: 'h', type: Boolean  }
+	{ name: 'help', alias: 'h', type: Boolean }
 ]
 
-const options = cmdArgs( optionDefinitions, { partial: true } )
+const options = cmdArgs( optionDefinitions, { partial: true })
 
 if ( options.verbose ) {
 	log.level = 'verbose'
@@ -22,7 +22,7 @@ if ( options.debug ) {
 	log.level = 'debug'
 }
 
-log.debug( { options } )
+log.debug({ options })
 
 if ( options.help ) {
 	showUsage()

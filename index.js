@@ -28,15 +28,14 @@ module.exports.getOutputPaths = getOutputPaths
  *         converted files
  */
 function jsxbin( inputPaths, outputPath ) {
-
 	// Debug some values
 	log.debug( 'Current dir', process.cwd() )
-	log.debug( 'arguments', { inputPaths, outputPath } )
+	log.debug( 'arguments', { inputPaths, outputPath })
 
 	// Store input and output globaly, because they need to be accesible later
 	let input, output
 
-	// inputPaths can be different things, so we need to convert it to the
+	// "inputPaths" can be different things, so we need to convert it to the
 	// correct value, an array of absolute paths, that can be used in the
 	// ESTK script.
 	return getInputPaths( inputPaths )
@@ -46,10 +45,10 @@ function jsxbin( inputPaths, outputPath ) {
 		// We also have to convert outputPath into an array of absolute paths
 		output = getOutputPaths( input, outputPath )
 		if ( outputPath === undefined ) {
-			outputPath = output[ 0 ]
+			outputPath = output[0]
 		}
 		log.verbose( 'Converting', input, 'to', output )
-	} )
+	})
 
 	// We have to create the output folder if it does not exist
 	.then( () => createDir( outputPath ) )
@@ -62,11 +61,10 @@ function jsxbin( inputPaths, outputPath ) {
 	.then( () => {
 		log.info( 'Finished!' )
 		return output
-	} )
+	})
 }
 
 function getInputPaths( inputPaths ) {
-
 	// We are going to loop through all input paths, so make sure it is an array
 	if ( !Array.isArray( inputPaths ) ) {
 		inputPaths = [ inputPaths ]
@@ -101,10 +99,10 @@ function getInputPaths( inputPaths ) {
 				// do not want. So push path values to a different array instead
 				allPaths.push.apply( allPaths, paths )
 				resolve()
-			} )
-		} )
+			})
+		})
 		globPromises.push( promise )
-	} )
+	})
 
 	// Wait for all glob paths to finish, then return all the paths
 	return Promise.all( globPromises ).then( () => allPaths )
@@ -124,32 +122,36 @@ function getOutputPaths( inputPaths, outputPath ) {
 		return inputPaths.map( filePath => {
 			const extension = path.extname( filePath )
 			return filePath.replace( extension, '.jsxbin' )
-		} )
+		})
 	}
 
 	// Check if outputPath is directory
-	if ( !/\.jsxbin$/.test( outputPath ) ) {
+	if ( /\.jsxbin$/.test( outputPath ) ) {
+		// "outputPath" is a file
+		// We need output to be an array with the same length of the input
+		inputPaths.forEach( () => {
+			// FIXME: this will cause all output files to have the same name
+			// if there are multiple input files
+			output.push( outputPath )
+		})
 
-		// outputPath is a directory
+		// "outputPath" is a directory
 
 		inputPaths.forEach( filePath => {
-
 			// Replace the extension of the filename with jsxbin and put it
 			// in the output directory
 			const fileName = replaceExtension( filePath, 'jsxbin' )
 			output.push( path.join( outputPath, fileName ) )
-		} )
+		})
 
-	// outputPath is a file
+	// "outputPath" is a directory
 	} else {
-
-		// We need output to be an array with the same length of the input
-		inputPaths.forEach( () => {
-
-			// FIXME: this will cause all output files to have the same name
-			// if there are multiple input files
-			output.push( outputPath )
-		} )
+		inputPaths.forEach( filePath => {
+			// Replace the extension of the filename with jsxbin and put it
+			// in the output directory
+			const fileName = replaceExtension( filePath, 'jsxbin' )
+			output.push( path.join( outputPath, fileName ) )
+		})
 	}
 	return output
 }

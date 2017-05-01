@@ -4,8 +4,7 @@ const assert = require( 'assert' )
 const jsxbin = require( '../' )
 const rimraf = require( 'rimraf' )
 
-describe( 'jsxbin', function() {
-
+describe( 'jsxbin', function () {
 	// ExtendScript Toolkit takes a while to convert files, so increate timeout
 	this.timeout( 4000 )
 
@@ -15,25 +14,25 @@ describe( 'jsxbin', function() {
 	function cleanup( done ) {
 		rimraf( outputDir, () => {
 			done()
-		} )
+		})
 	}
 
 	beforeEach( 'Delete outputdir', cleanup )
 
-	it( 'creates given filename in output', function() {
+	it( 'creates given filename in output', function () {
 		const output = path.join( outputDir, 'test1.jsxbin' )
 		return jsxbin( path.join( inputDir, 'test1.jsx' ), output )
 			.then( () => fs.access( output ) )
-	} )
+	})
 
-	it( 'creates one file with input filename in output directory', function() {
+	it( 'creates one file with input filename in output directory', function () {
 		return jsxbin( path.join( inputDir, 'test1.jsx' ), outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test1.jsxbin' )
 			return fs.accessSync( expectedOutputFile )
-		} )
-	} )
+		})
+	})
 
-	it( 'creates two files with input filenames in output directory', function() {
+	it( 'creates two files with input filenames in output directory', function () {
 		const input = [
 			path.join( inputDir, 'test1.jsx' ),
 			path.join( inputDir, 'test2.jsx' )
@@ -41,23 +40,23 @@ describe( 'jsxbin', function() {
 		return jsxbin( input, outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test1.jsxbin' )
 			return fs.accessSync( expectedOutputFile )
-		} ).then( () => {
+		}).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test2.jsxbin' )
 			return fs.accessSync( expectedOutputFile )
-		} )
-	} )
+		})
+	})
 
-	it( 'creates files in output dir when passed glob', function() {
+	it( 'creates files in output dir when passed glob', function () {
 		return jsxbin( `${inputDir}/*.jsx`, outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test1.jsxbin' )
 			return fs.accessSync( expectedOutputFile )
-		} ).then( () => {
+		}).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test2.jsxbin' )
 			return fs.accessSync( expectedOutputFile )
-		} )
-	} )
+		})
+	})
 
-	it( 'returns a list of files it has created', function() {
+	it( 'returns a list of files it has created', function () {
 		const input = [
 			path.join( inputDir, 'test1.jsx' ),
 			path.join( inputDir, 'test2.jsx' )
@@ -70,26 +69,26 @@ describe( 'jsxbin', function() {
 
 		return jsxbin( input, outputDir ).then( output => {
 			assert.deepEqual( output, expectedOutput, 'output == expectedOutput' )
-		} )
-	} )
+		})
+	})
 
-	it( 'should work when there are spaces in the filename', function() {
+	it( 'should work when there are spaces in the filename', function () {
 		const input = path.join( inputDir, 'test space 1.jsx' )
 		return jsxbin( input, outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test space 1.jsxbin' )
 			return fs.accessSync( expectedOutputFile )
-		} )
-	} )
+		})
+	})
 
-	it( 'should work when files use #include', function() {
+	it( 'should work when files use #include', function () {
 		const input = path.join( inputDir, 'testInclude.jsx' )
 		return jsxbin( input, outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'testInclude.jsxbin' )
 			return fs.accessSync( expectedOutputFile )
-		} )
-	} )
+		})
+	})
 
-	it( 'should work when passing an array as output', function() {
+	it( 'should work when passing an array as output', function () {
 		const input = [
 			path.join( inputDir, 'test1.jsx' ),
 			path.join( inputDir, 'test2.jsx' )
@@ -102,10 +101,10 @@ describe( 'jsxbin', function() {
 
 		return jsxbin( input, expectedOutput ).then( output => {
 			assert.deepEqual( output, expectedOutput, 'output == expectedOutput' )
-		} )
-	} )
+		})
+	})
 
-	it( 'should create jsxbin file in the same place as the input when no output is given', function() {
+	it( 'should create jsxbin file in the same place as the input when no output is given', function () {
 		const input = [
 			path.join( inputDir, 'test1.jsx' ),
 			path.join( inputDir, 'test2.jsx' )
@@ -119,10 +118,10 @@ describe( 'jsxbin', function() {
 		return jsxbin( input, expectedOutput ).then( output => {
 			assert.deepEqual( output, expectedOutput, 'output == expectedOutput' )
 			output.forEach( fs.unlinkSync )
-		} )
-	} )
+		})
+	})
 
-	it( 'should work when only passed a glob', function() {
+	it( 'should work when only passed a glob', function () {
 		const expectedOutput = [
 			path.join( inputDir, 'test1.jsxbin' ),
 			path.join( inputDir, 'test2.jsxbin' )
@@ -132,6 +131,6 @@ describe( 'jsxbin', function() {
 		return jsxbin( `${inputDir}/!(testInclude).jsx` ).then( output => {
 			expectedOutput.forEach( f => fs.accessSync( f ) )
 			output.forEach( fs.unlinkSync )
-		} )
-	} )
-} )
+		})
+	})
+})

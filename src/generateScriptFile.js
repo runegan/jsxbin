@@ -4,14 +4,13 @@ const writeFile = require( 'fs' ).writeFile
 const log = require( './logger' )
 
 module.exports = function generateScriptFile( input, output ) {
-
 	// We need to create a temp file that ESTK can run, this file will have
 	// all paths that are going to be converted
-	return tmp.file( { postfix: '.jsx' } )
+	return tmp.file({ postfix: '.jsx' })
 
-	// tmp.file returns an object with the more properties, but we are only
+	// "tmp.file" returns an object with the more properties, but we are only
 	// interested in the path property
-	.then( ( { path: file } ) => {
+	.then( ({ path: file }) => {
 		log.verbose( 'Created temp file at', file )
 
 		const script = createScriptContent( input, output )
@@ -25,9 +24,9 @@ module.exports = function generateScriptFile( input, output ) {
 
 				// Send file path to next function in the promise chain
 				resolve( file )
-			} )
-		} )
-	} )
+			})
+		})
+	})
 }
 
 /**
@@ -72,7 +71,7 @@ function createScriptContent( input, output ) {
 		}
 	}`
 
-	log.debug( { script } )
+	log.debug({ script })
 
 	return script
 }
