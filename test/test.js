@@ -73,7 +73,7 @@ describe( 'jsxbin', function () {
 		})
 	})
 
-	it( 'should work when there are spaces in the filename', function () {
+	it( 'works when there are spaces in the filename', function () {
 		const input = path.join( inputDir, 'test space 1.jsx' )
 		return jsxbin( input, outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test space 1.jsxbin' )
@@ -81,7 +81,7 @@ describe( 'jsxbin', function () {
 		})
 	})
 
-	it( 'should work when files use #include', function () {
+	it( 'works when files use #include', function () {
 		const input = path.join( inputDir, 'testInclude.jsx' )
 		return jsxbin( input, outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'testInclude.jsxbin' )
@@ -89,7 +89,7 @@ describe( 'jsxbin', function () {
 		})
 	})
 
-	it( 'should work when files use #include in two directories', function () {
+	it( 'works when files use #include in two directories', function () {
 		const input = [
 			path.join( inputDir, 'testInclude.jsx' ),
 			path.join( inputDir2, 'testInclude2.jsx' )
@@ -105,7 +105,7 @@ describe( 'jsxbin', function () {
 		})
 	})
 
-	it( 'should work when passing an array as output', function () {
+	it( 'works when passing an array as output', function () {
 		const input = [
 			path.join( inputDir, 'test1.jsx' ),
 			path.join( inputDir, 'test2.jsx' )
@@ -121,7 +121,7 @@ describe( 'jsxbin', function () {
 		})
 	})
 
-	it( 'should create jsxbin file in the same place as the input when no output is given', function () {
+	it( 'creates jsxbin file in the same place as the input when no output is given', function () {
 		const input = [
 			path.join( inputDir, 'test1.jsx' ),
 			path.join( inputDir, 'test2.jsx' )
@@ -138,7 +138,7 @@ describe( 'jsxbin', function () {
 		})
 	})
 
-	it( 'should work when only passed a glob', function () {
+	it( 'works when only passed a glob', function () {
 		const expectedOutput = [
 			path.join( inputDir, 'test1.jsxbin' ),
 			path.join( inputDir, 'test2.jsxbin' )
