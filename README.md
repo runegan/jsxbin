@@ -16,11 +16,11 @@ jsxbin( 'path/to/script.js', 'output/script.jsxbin' )
 	})
 ```
 
-(You have to have [ExtendScript Toolkit](http://www.adobe.com/products/extendscript-toolkit.html) installed for this package to work.)
+(You must have [ExtendScript Toolkit](http://www.adobe.com/products/extendscript-toolkit.html) installed for this package to work.)
 
 # Methods
 
-## jsxbin( inputPaths, outputPath )
+## jsxbin( inputPaths, [outputPath] )
 
 `inputPaths` can be:
 
@@ -28,13 +28,14 @@ jsxbin( 'path/to/script.js', 'output/script.jsxbin' )
 - String with glob pattern that matches jsx/js files. `*.jsx`
 - Array of any of the above
 
-`outputPath` can be:
+`outputPath`, optional, can be:
 
-- String path for what to name converted file. `path/to/script.jsxbin`
+- String path to converted file. `path/to/script.jsxbin`
 	- Should only be used when passing only one file as `inputPaths`
-- String path to folder where converted file will be placed. `path/to/output`
-- Array with string paths with names for all converted files
-	- Should only be used when passing an array to `inputPaths`, and it is the same length
+- String path to converted file directory. `path/to/output`
+- Array of string paths of names for all converted files
+	- Should only be used when passing an array to `inputPaths`. Input and output arrays must be the same length.
+- If not given, the files will be created in the same location as the input file(s)
 
 `jsxbin` returns a promise with an array of file paths to the converted files
 
@@ -44,11 +45,22 @@ jsxbin( 'path/to/script.js', 'output/script.jsxbin' )
 // Just one file
 jsxbin( 'script.jsx', 'script.jsxbin' )
 
+// Is the same as
+jsxbin( 'script.jsx' )
+
 // Multiple files
 jsxbin([ 'script1.jsx', 'script2.jsx' ], 'output/' )
 
-// Using glob string for input
+// Using glob string for input, jsxbin files will be placed in 'output/' dir
 jsxbin( 'src/*.jsx', 'output' )
+
+// With no output path specified, jsxbin files will be placed in the 'src/' dir
+jsxbin( 'src/*jsx' )
+
+// As a gulp task
+gulp.task( 'jsxbin', () => {
+	return jsxbin( 'src/index.js', 'output/script.jsxbin' )
+})
 ```
 
 # From the Command Line
