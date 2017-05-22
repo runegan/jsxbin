@@ -35,7 +35,7 @@ jsxbin( 'path/to/script.js', 'output/script.jsxbin' )
 - String path to converted file directory. `path/to/output`
 - Array of string paths of names for all converted files
 	- Should only be used when passing an array to `inputPaths`. Input and output arrays must be the same length.
-- If not given, the files will be created in the same location as the input file(s)
+- If not given, the files will be created in the same directory as the input file(s)
 
 `jsxbin` returns a promise with an array of file paths to the converted files
 
