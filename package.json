@@ -27,17 +27,17 @@
     "test": "eslint . && mocha"
   },
   "dependencies": {
-    "command-line-args": "^4.0.2",
+    "command-line-args": "^4.0.4",
     "command-line-usage": "^4.0.0",
-    "glob": "^7.1.1",
+    "glob": "^7.1.2",
     "mkdirp": "^0.5.1",
     "tmp-promise": "^1.0.3",
     "winston": "^2.3.1"
   },
   "devDependencies": {
-    "eslint": "^3.18.0",
-    "eslint-config-runegan": "^1.0.0",
-    "mocha": "^3.2.0",
+    "eslint": "^3.19.0",
+    "eslint-config-runegan": "^1.0.1",
+    "mocha": "^3.4.1",
     "mz": "^2.6.0",
     "rimraf": "^2.6.1"
   },
