@@ -100,7 +100,8 @@ function quitESTK() {
 
 	// Windows
 	} else if ( process.platform === 'win32' ) {
-		return execPromise( 'taskkill /IM ExtendScript Toolkit.exe' )
+		const command = 'START /wait taskkill /f /im "ExtendScript Toolkit.exe"'
+		return execPromise( command )
 	}
 	throw Error( `Platform ${process.platform} is not supported` )
 }
