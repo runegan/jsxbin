@@ -57,13 +57,9 @@ function getESTKPath() {
 
 	// Windows
 	} else if ( process.platform === 'win32' ) {
-		path = checkPaths( 'C:\\Program Files ^(x86)\\Adobe\\Adobe ExtendScript Toolkit CC\\ExtendScript Toolkit.exe',
-			'C:\\Program Files ^(x86)\\Adobe\\Adobe ExtendScript Toolkit\\ExtendScript Toolkit.exe'
+		path = checkPaths( 'C:\\Program Files (x86)\\Adobe\\Adobe ExtendScript Toolkit CC\\ExtendScript Toolkit.exe',
+			'C:\\Program Files (x86)\\Adobe\\Adobe ExtendScript Toolkit\\ExtendScript Toolkit.exe'
 		)
-
-		if ( path !== null ) {
-			path = path.replace( / /g, '^ ' )
-		}
 
 	// Linux
 	} else {
