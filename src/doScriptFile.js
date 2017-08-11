@@ -50,14 +50,15 @@ function getESTKPath() {
 
 	// OSX
 	if ( process.platform === 'darwin' ) {
-		path = checkPaths( '/Applications/Adobe ExtendScript Toolkit CC/ExtendScript Toolkit.app/Contents/MacOS/ExtendScript Toolkit',
+		path = checkPaths(
 			'/Applications/Adobe ExtendScript Toolkit CC/ExtendScript Toolkit.app/Contents/MacOS/ExtendScript Toolkit',
 			'/Applications/Utilities/Adobe Utilities - CS6.localized/ExtendScript Toolkit CS6/ExtendScript Toolkit.app/Contents/MacOS/ExtendScript Toolkit'
 		)
 
 	// Windows
 	} else if ( process.platform === 'win32' ) {
-		path = checkPaths( 'C:\\Program Files (x86)\\Adobe\\Adobe ExtendScript Toolkit CC\\ExtendScript Toolkit.exe',
+		path = checkPaths(
+			'C:\\Program Files (x86)\\Adobe\\Adobe ExtendScript Toolkit CC\\ExtendScript Toolkit.exe',
 			'C:\\Program Files (x86)\\Adobe\\Adobe ExtendScript Toolkit\\ExtendScript Toolkit.exe'
 		)
 
