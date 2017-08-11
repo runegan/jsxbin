@@ -3,16 +3,7 @@ const fs = require( 'fs' )
 
 const log = require( './logger' )
 
-module.exports = function doScriptFiles( files ) {
-	let chain = Promise.resolve()
-	files.forEach( file => {
-		chain = chain.then( () => doScriptFile( file ) )
-	})
-	return chain
-}
-
-
-function doScriptFile( file ) {
+module.exports = function doScriptFile( file ) {
 	// An alert comes from ESTK if it already open when running the command
 	// So we need to close it before running the command
 	return quitESTK()
