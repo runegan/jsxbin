@@ -1,6 +1,6 @@
 const exec = require( 'child_process' ).exec
 const fs = require( 'fs' )
-const path = require( 'path' );
+const path = require( 'path' )
 
 const log = require( './logger' )
 
@@ -25,7 +25,7 @@ function execute( file ) {
 function execPromise( command, scriptDir ) {
     return new Promise( ( resolve, reject ) => {
         // Execute the command
-        exec( command, {cwd: scriptDir}, err => {
+        exec( command, { cwd: scriptDir }, err => {
             if ( err ) {
                 return reject( err )
             }
