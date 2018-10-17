@@ -1,5 +1,6 @@
 const exec = require( 'child_process' ).exec
 const fs = require( 'fs' )
+const path = require( 'path' );
 
 const log = require( './logger' )
 
@@ -11,25 +12,26 @@ module.exports = function doScriptFile( file ) {
 }
 
 function execute( file ) {
-	const command = getESTKCommand( file )
+    const command = getESTKCommand( path.basename( file ) )
+    const scriptDir = path.dirname( file )
 
-	log.verbose( 'Converting' )
-	log.debug( 'Command: ', command )
+    log.verbose( 'Converting' )
+    log.debug( 'Command: ', command )
 
-		// Execute the command
-	return execPromise( command )
+        // Execute the command
+    return execPromise( command, scriptDir )
 }
 
-function execPromise( command ) {
-	return new Promise( ( resolve, reject ) => {
-		// Execute the command
-		exec( command, err => {
-			if ( err ) {
-				return reject( err )
-			}
-			resolve()
-		})
-	})
+function execPromise( command, scriptDir ) {
+    return new Promise( ( resolve, reject ) => {
+        // Execute the command
+        exec( command, {cwd: scriptDir}, err => {
+            if ( err ) {
+                return reject( err )
+            }
+            resolve()
+        })
+    })
 }
 
 function getESTKCommand( scriptFile ) {
