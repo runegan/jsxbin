@@ -9,7 +9,7 @@ const createDir = require( './src/createDir' )
 const generateScriptFile = require( './src/generateScriptFile' )
 const doScriptFile = require( './src/doScriptFile' )
 
-log.level = '0'
+log.level = '1'
 
 module.exports = jsxbin
 module.exports.getInputPaths = getInputPaths
@@ -24,13 +24,14 @@ module.exports.getOutputPaths = getOutputPaths
  * @param  {string|string[]} [outputPath] The output file or output directory,
  *         or an array of output files. If not given, the files will be created
  *         in the same location as the input file(s)
+ * @param  {string|string[]} [customESTKPaths] List of paths to ESTK executable.
  * @return {Promise} A Promise that returns an array of file paths to the
  *         converted files
  */
-function jsxbin( inputPaths, outputPath ) {
+function jsxbin( inputPaths, outputPath, customESTKPaths ) {
 	// Debug some values
 	log.debug( 'Current dir', process.cwd() )
-	log.debug( 'arguments', { inputPaths, outputPath })
+	log.debug( 'arguments', { inputPaths, outputPath, customESTKPaths})
 
 	// Store input and output globaly, because they need to be accesible later
 	let input, output
@@ -57,7 +58,7 @@ function jsxbin( inputPaths, outputPath ) {
 	.then( () => generateScriptFile( input, output ) )
 
 	// Execute the script file in Extendscript Toolkit
-	.then( scriptFile => doScriptFile( scriptFile ) )
+	.then( scriptFile => doScriptFile( scriptFile, customESTKPaths) )
 	.then( () => {
 		log.info( 'Finished!' )
 		return output

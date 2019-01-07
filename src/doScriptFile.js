@@ -1,18 +1,19 @@
 const exec = require( 'child_process' ).exec
 const fs = require( 'fs' )
-const path = require( 'path' );
+const path = require( 'path' )
 
 const log = require( './logger' )
 
-module.exports = function doScriptFile( file ) {
+module.exports = function doScriptFile( file, customESTKPaths) {
 	// An alert comes from ESTK if it already open when running the command
 	// So we need to close it before running the command
 	return quitESTK()
-		.then( () => execute( file ) )
+		.then( () => execute( file, customESTKPaths) )
 }
 
-function execute( file ) {
-    const command = getESTKCommand( path.basename( file ) )
+function execute( file, customESTKPaths) {
+	const estkPath = getESTKPath(customESTKPaths);
+    const command = getESTKCommand( estkPath, path.basename( file ));
     const scriptDir = path.dirname( file )
 
     log.verbose( 'Converting' )
@@ -25,7 +26,7 @@ function execute( file ) {
 function execPromise( command, scriptDir ) {
     return new Promise( ( resolve, reject ) => {
         // Execute the command
-        exec( command, {cwd: scriptDir}, err => {
+        exec( command, { cwd: scriptDir }, err => {
             if ( err ) {
                 return reject( err )
             }
@@ -34,50 +35,67 @@ function execPromise( command, scriptDir ) {
     })
 }
 
-function getESTKCommand( scriptFile ) {
-	return `"${getESTKPath()}" -cmd ${scriptFile}`
+function getESTKCommand( estkPath, scriptFile) {
+	return `"${estkPath}" -cmd ${scriptFile}`;
 }
 
-function getESTKPath() {
-	let path = null
+function getESTKPath(customESTKPaths) {
+	let path = null;
+
+	let defaultESTKPathsMac = [
+		'/Applications/Adobe ExtendScript Toolkit CC/ExtendScript Toolkit.app/Contents/MacOS/ExtendScript Toolkit',
+		'/Applications/Utilities/Adobe Utilities - CS6.localized/ExtendScript Toolkit CS6/ExtendScript Toolkit.app/Contents/MacOS/ExtendScript Toolkit'
+	];
+
+	let defaultESTKPathsWin = [
+		'C:\\Program Files (x86)\\Adobe\\Adobe ExtendScript Toolkit CC\\ExtendScript Toolkit.exe',
+		'C:\\Program Files (x86)\\Adobe\\Adobe ExtendScript Toolkit\\ExtendScript Toolkit.exe'			
+	];
+
+	var pathsToCheck = [];
 
 	// OSX
 	if ( process.platform === 'darwin' ) {
-		path = checkPaths(
-			'/Applications/Adobe ExtendScript Toolkit CC/ExtendScript Toolkit.app/Contents/MacOS/ExtendScript Toolkit',
-			'/Applications/Utilities/Adobe Utilities - CS6.localized/ExtendScript Toolkit CS6/ExtendScript Toolkit.app/Contents/MacOS/ExtendScript Toolkit'
-		)
+		pathsToCheck = defaultESTKPathsMac;
 
 	// Windows
 	} else if ( process.platform === 'win32' ) {
-		path = checkPaths(
-			'C:\\Program Files (x86)\\Adobe\\Adobe ExtendScript Toolkit CC\\ExtendScript Toolkit.exe',
-			'C:\\Program Files (x86)\\Adobe\\Adobe ExtendScript Toolkit\\ExtendScript Toolkit.exe'
-		)
+		pathsToCheck = defaultESTKPathsWin;
 
 	// Linux
 	} else {
 		throw Error( `Platform ${process.platform} is not supported` )
 	}
 
+	if (typeof customESTKPaths !== 'undefined') {
+		if (Array.isArray(customESTKPaths)) {
+			pathsToCheck = pathsToCheck.concat(customESTKPaths);
+		} else {
+			pathsToCheck.push(customESTKPaths);
+		}	
+	}
+
+	path = checkPaths( ...pathsToCheck );
+
 	log.debug( 'ESTK Path:', path )
 	if ( path === null ) {
 		throw Error( 'Could not find ExtendScript Toolkit installation' )
 	}
-	return path
+
+	return path;
 
 	function checkPaths( ...paths ) {
-		let thePath = null
+		let thePath = null;
 
 		// Return the first existing path
 		paths.forEach( path => {
 			if ( fs.existsSync( path ) ) {
-				thePath = path
-				return false
+				thePath = path;
+				return false;
 			}
 		})
 
-		return thePath
+		return thePath;
 	}
 }
 
