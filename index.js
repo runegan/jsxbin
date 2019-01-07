@@ -18,7 +18,7 @@ module.exports.getOutputPaths = getOutputPaths
 /**
  * Converts input file into jsxbin file using ExtendScript Toolkit
  * @function jsxbin
- * @param  {string|string[]} inputPaths  The file or files to convert, can be in
+ * @param  {string|string[]|object} inputPaths  The file or files to convert, can be in
  *         glob paths (``*.jsx`) or regular paths that point to files,
  *         not directories (`/path/to/script.jsx`)
  * @param  {string|string[]} [outputPath] The output file or output directory,
@@ -29,6 +29,13 @@ module.exports.getOutputPaths = getOutputPaths
  *         converted files
  */
 function jsxbin( inputPaths, outputPath, customESTKPaths ) {
+	if ( !Array.isArray( inputPaths ) && typeof inputPaths === 'object' ) {
+		const options = inputPaths
+		inputPaths = options.input
+		outputPath = options.output
+		customESTKPaths = options.estk
+	}
+
 	// Debug some values
 	log.debug( 'Current dir', process.cwd() )
 	log.debug( 'arguments', { inputPaths, outputPath, customESTKPaths})

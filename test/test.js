@@ -149,4 +149,11 @@ describe( 'jsxbin', function () {
 			output.forEach( fs.unlinkSync )
 		})
 	})
+
+	it( 'works when passing in an options object', function () {
+		return jsxbin( { input: path.join( inputDir, 'test1.jsx' ), output: outputDir } ).then( () => {
+			const expectedOutputFile = path.join( outputDir, 'test1.jsxbin' )
+			return fs.accessSync( expectedOutputFile )
+		})
+	})
 })
