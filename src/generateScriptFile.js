@@ -11,23 +11,23 @@ module.exports = function generateScriptFile( input, output ) {
 
 	// "tmp.file" returns an object with the more properties, but we are only
 	// interested in the path property
-	.then( ({ path: file }) => {
-		log.verbose( 'Created temp file at', file )
+		.then( ({ path: file }) => {
+			log.verbose( 'Created temp file at', file )
 
-		const script = createScriptContent( input, output )
+			const script = createScriptContent( input, output )
 
-		// Write script contents to temp file
-		return new Promise( ( resolve, reject ) => {
-			writeFile( file, script, err => {
-				if ( err ) {
-					return reject( err )
-				}
+			// Write script contents to temp file
+			return new Promise( ( resolve, reject ) => {
+				writeFile( file, script, err => {
+					if ( err ) {
+						return reject( err )
+					}
 
-				// Send file path to next function in the promise chain
-				resolve( file )
+					// Send file path to next function in the promise chain
+					resolve( file )
+				})
 			})
 		})
-	})
 }
 
 /**

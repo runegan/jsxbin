@@ -38,7 +38,7 @@ function jsxbin( inputPaths, outputPath, customESTKPaths ) {
 
 	// Debug some values
 	log.debug( 'Current dir', process.cwd() )
-	log.debug( 'arguments', { inputPaths, outputPath, customESTKPaths})
+	log.debug( 'arguments', { inputPaths, outputPath, customESTKPaths })
 
 	// Store input and output globaly, because they need to be accesible later
 	let input, output
@@ -47,29 +47,29 @@ function jsxbin( inputPaths, outputPath, customESTKPaths ) {
 	// correct value, an array of absolute paths, that can be used in the
 	// ESTK script.
 	return getInputPaths( inputPaths )
-	.then( inputPaths => {
-		input = inputPaths
+		.then( inputPaths => {
+			input = inputPaths
 
-		// We also have to convert outputPath into an array of absolute paths
-		output = getOutputPaths( input, outputPath )
-		if ( outputPath === undefined ) {
-			outputPath = output[0]
-		}
-		log.verbose( 'Converting', input, 'to', output )
-	})
+			// We also have to convert outputPath into an array of absolute paths
+			output = getOutputPaths( input, outputPath )
+			if ( outputPath === undefined ) {
+				outputPath = output[0]
+			}
+			log.verbose( 'Converting', input, 'to', output )
+		})
 
 	// We have to create the output folder if it does not exist
-	.then( () => createDir( outputPath ) )
+		.then( () => createDir( outputPath ) )
 
 	// Generate a script file that will convert input into output
-	.then( () => generateScriptFile( input, output ) )
+		.then( () => generateScriptFile( input, output ) )
 
 	// Execute the script file in Extendscript Toolkit
-	.then( scriptFile => doScriptFile( scriptFile, customESTKPaths) )
-	.then( () => {
-		log.info( 'Finished!' )
-		return output
-	})
+		.then( scriptFile => doScriptFile( scriptFile, customESTKPaths ) )
+		.then( () => {
+			log.info( 'Finished!' )
+			return output
+		})
 }
 
 function getInputPaths( inputPaths ) {

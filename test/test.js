@@ -26,6 +26,12 @@ describe( 'jsxbin', function () {
 			.then( () => fs.access( output ) )
 	})
 
+	it( 'works when no output is given with a single file', function () {
+		const output = path.join( inputDir, 'test1.jsxbin' )
+		return jsxbin( path.join( inputDir, 'test1.jsx' ) )
+			.then( () => fs.access( output ) )
+	})
+
 	it( 'creates one file with input filename in output directory', function () {
 		return jsxbin( path.join( inputDir, 'test1.jsx' ), outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test1.jsxbin' )
@@ -151,8 +157,15 @@ describe( 'jsxbin', function () {
 	})
 
 	it( 'works when passing in an options object', function () {
-		return jsxbin( { input: path.join( inputDir, 'test1.jsx' ), output: outputDir } ).then( () => {
+		return jsxbin({ input: path.join( inputDir, 'test1.jsx' ), output: outputDir }).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test1.jsxbin' )
+			return fs.accessSync( expectedOutputFile )
+		})
+	})
+
+	it( 'works when passing in an options object without output', function () {
+		return jsxbin({ input: path.join( inputDir, 'test1.jsx' ) }).then( () => {
+			const expectedOutputFile = path.join( inputDir, 'test1.jsxbin' )
 			return fs.accessSync( expectedOutputFile )
 		})
 	})

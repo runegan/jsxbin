@@ -31,7 +31,7 @@ if ( options.help ) {
 		showUsage()
 	}
 	jsxbin( options.input, options.output )
-	.catch( log.error )
+		.catch( log.error )
 }
 
 function showUsage() {
