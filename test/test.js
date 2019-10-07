@@ -23,19 +23,22 @@ describe( 'jsxbin', function () {
 	it( 'creates given filename in output', function () {
 		const output = path.join( outputDir, 'test1.jsxbin' )
 		return jsxbin( path.join( inputDir, 'test1.jsx' ), output )
-			.then( () => fs.access( output ) )
+			.then( () => fs.accessSync( output ) &&
+				fs.readSync( output ).lenght !== 0 )
 	})
 
 	it( 'works when no output is given with a single file', function () {
 		const output = path.join( inputDir, 'test1.jsxbin' )
 		return jsxbin( path.join( inputDir, 'test1.jsx' ) )
-			.then( () => fs.access( output ) )
+			.then( () => fs.accessSync( output ) &&
+				fs.readSync( output ).lenght !== 0 )
 	})
 
 	it( 'creates one file with input filename in output directory', function () {
 		return jsxbin( path.join( inputDir, 'test1.jsx' ), outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test1.jsxbin' )
-			return fs.accessSync( expectedOutputFile )
+			return fs.accessSync( expectedOutputFile ) &&
+				fs.readSync( expectedOutputFile ).lenght !== 0
 		})
 	})
 
@@ -46,20 +49,24 @@ describe( 'jsxbin', function () {
 		]
 		return jsxbin( input, outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test1.jsxbin' )
-			return fs.accessSync( expectedOutputFile )
+			return fs.accessSync( expectedOutputFile ) &&
+				fs.readSync( expectedOutputFile ).lenght !== 0
 		}).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test2.jsxbin' )
-			return fs.accessSync( expectedOutputFile )
+			return fs.accessSync( expectedOutputFile ) &&
+				fs.readSync( expectedOutputFile ).lenght !== 0
 		})
 	})
 
 	it( 'creates files in output dir when passed glob', function () {
 		return jsxbin( `${inputDir}/*.jsx`, outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test1.jsxbin' )
-			return fs.accessSync( expectedOutputFile )
+			return fs.accessSync( expectedOutputFile ) &&
+				fs.readSync( expectedOutputFile ).lenght !== 0
 		}).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test2.jsxbin' )
-			return fs.accessSync( expectedOutputFile )
+			return fs.accessSync( expectedOutputFile ) &&
+				fs.readSync( expectedOutputFile ).lenght !== 0
 		})
 	})
 
@@ -83,7 +90,8 @@ describe( 'jsxbin', function () {
 		const input = path.join( inputDir, 'test space 1.jsx' )
 		return jsxbin( input, outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test space 1.jsxbin' )
-			return fs.accessSync( expectedOutputFile )
+			return fs.accessSync( expectedOutputFile ) &&
+				fs.readSync( expectedOutputFile ).lenght !== 0
 		})
 	})
 
@@ -91,7 +99,8 @@ describe( 'jsxbin', function () {
 		const input = path.join( inputDir, 'testInclude.jsx' )
 		return jsxbin( input, outputDir ).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'testInclude.jsxbin' )
-			return fs.accessSync( expectedOutputFile )
+			return fs.accessSync( expectedOutputFile ) &&
+				fs.readSync( expectedOutputFile ).lenght !== 0
 		})
 	})
 
@@ -107,7 +116,8 @@ describe( 'jsxbin', function () {
 		]
 
 		return jsxbin( input, outputDir ).then( () => {
-			expectedOutput.forEach( f => fs.accessSync( f ) )
+			expectedOutput.forEach( f => fs.accessSync( f ) &&
+				fs.readSync( f ).lenght !== 0 )
 		})
 	})
 
@@ -159,14 +169,16 @@ describe( 'jsxbin', function () {
 	it( 'works when passing in an options object', function () {
 		return jsxbin({ input: path.join( inputDir, 'test1.jsx' ), output: outputDir }).then( () => {
 			const expectedOutputFile = path.join( outputDir, 'test1.jsxbin' )
-			return fs.accessSync( expectedOutputFile )
+			return fs.accessSync( expectedOutputFile ) &&
+				fs.readSync( expectedOutputFile ).lenght !== 0
 		})
 	})
 
 	it( 'works when passing in an options object without output', function () {
 		return jsxbin({ input: path.join( inputDir, 'test1.jsx' ) }).then( () => {
 			const expectedOutputFile = path.join( inputDir, 'test1.jsxbin' )
-			return fs.accessSync( expectedOutputFile )
+			return fs.accessSync( expectedOutputFile ) &&
+				fs.readSync( expectedOutputFile ).lenght !== 0
 		})
 	})
 })
