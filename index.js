@@ -6,8 +6,7 @@ const glob = require( 'glob' )
 
 const log = require( './src/logger' )
 const createDir = require( './src/createDir' )
-const generateScriptFile = require( './src/generateScriptFile' )
-const doScriptFile = require( './src/doScriptFile' )
+const convertScripts = require( './src/convertScripts' )
 
 log.level = '1'
 
@@ -24,21 +23,19 @@ module.exports.getOutputPaths = getOutputPaths
  * @param  {string|string[]} [outputPath] The output file or output directory,
  *         or an array of output files. If not given, the files will be created
  *         in the same location as the input file(s)
- * @param  {string|string[]} [customESTKPaths] List of paths to ESTK executable.
  * @return {Promise} A Promise that returns an array of file paths to the
  *         converted files
  */
-function jsxbin( inputPaths, outputPath, customESTKPaths ) {
+function jsxbin( inputPaths, outputPath ) {
 	if ( !Array.isArray( inputPaths ) && typeof inputPaths === 'object' ) {
 		const options = inputPaths
 		inputPaths = options.input
 		outputPath = options.output
-		customESTKPaths = options.estk
 	}
 
 	// Debug some values
 	log.debug( 'Current dir', process.cwd() )
-	log.debug( 'arguments', { inputPaths, outputPath, customESTKPaths })
+	log.debug( 'arguments', { inputPaths, outputPath })
 
 	// Store input and output globaly, because they need to be accesible later
 	let input, output
@@ -61,11 +58,8 @@ function jsxbin( inputPaths, outputPath, customESTKPaths ) {
 	// We have to create the output folder if it does not exist
 		.then( () => createDir( outputPath ) )
 
-	// Generate a script file that will convert input into output
-		.then( () => generateScriptFile( input, output ) )
-
-	// Execute the script file in Extendscript Toolkit
-		.then( scriptFile => doScriptFile( scriptFile, customESTKPaths ) )
+	// Convert the script using the resources from the VSCode extension.
+		.then( () => convertScripts( input, output ) )
 		.then( () => {
 			log.info( 'Finished!' )
 			return output
