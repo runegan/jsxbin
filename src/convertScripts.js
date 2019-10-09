@@ -6,12 +6,12 @@ function GetESDInterface() {
 	const platformArch = `${process.arch}`
 	let esdinterface
 	if ( platform === 'darwin' ) {
-		esdinterface = require( path.resolve( __dirname, '..', 'esdebugger-core', 'mac', 'esdcorelibinterface.node' ) )
+		esdinterface = require( '../esdebugger-core/mac/esdcorelibinterface.node' )
 	} else if ( platform === 'win32' ) {
 		if ( platformArch === 'x64' || platformArch === 'arm64' ) {
-			esdinterface = require( path.resolve( __dirname, '..', 'esdebugger-core', 'win', 'x64', 'esdcorelibinterface.node' ) )
+			esdinterface = require( '../esdebugger-core/win/x64/esdcorelibinterface.node' )
 		} else {
-			esdinterface = require( path.resolve( __dirname, '..', 'esdebugger-core', 'win', 'win32', 'esdcorelibinterface.node' ) )
+			esdinterface = require( '../esdebugger-core/win/win32/esdcorelibinterface.node' )
 		}
 	}
 
