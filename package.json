@@ -16,7 +16,8 @@
   "files": [
     "index.js",
     "command.js",
-    "src/*"
+    "src/*",
+    "esdebugger-core/*"
   ],
   "main": "index.js",
   "bin": {
