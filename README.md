@@ -1,8 +1,8 @@
 # jsxbin
 
-Convert jsx ExtendScript files into jsxbin files using ExtendScript Toolkit (ESTK)
+Convert jsx ExtendScript files into jsxbin
 
-# Example
+## Example
 
 ```javascript
 const jsxbin = require( 'jsxbin' )
@@ -16,11 +16,9 @@ jsxbin( 'path/to/script.js', 'output/script.jsxbin' )
 	})
 ```
 
-(You must have [ExtendScript Toolkit](http://www.adobe.com/products/extendscript-toolkit.html) installed for this package to work.)
+## Methods
 
-# Methods
-
-## jsxbin( inputPaths, [outputPath] )
+### jsxbin( inputPaths, [outputPath] )
 
 `inputPaths` can be:
 
@@ -63,9 +61,9 @@ gulp.task( 'jsxbin', () => {
 })
 ```
 
-# From the Command Line
+## From the Command Line
 
-This package also ships with a `jsxbin` command.
+This package also includes a `jsxbin` command than can be run from the command line.
 
 ```
 jsxbin
@@ -73,7 +71,7 @@ jsxbin
   usage: jsxbin -i file1.jsx, file2.jsx.. -o outputdir
   usage: jsxbin -i file1.jsx -o outputname.jsxbin
 
-  Converts Extendscript .jsx files into jsxbin files using ExtendScript Toolkit
+  Converts Extendscript .jsx files into jsxbin
 
 Options
 
@@ -84,7 +82,7 @@ Options
   -h, --help                 Show help
 ```
 
-# Install
+## Install
 
 with npm do:
 
@@ -98,6 +96,15 @@ npm install jsxbin -g
 ```
 to get the command.
 
-# Contributing
+## Contributing
 
-Issues and pull requests are more than welcome. Please ensure you have tests for your pull requests, and that `npm test` passes.
+Issues and pull requests are more than welcome! Please ensure you have tests for your pull requests, and that `npm test` passes.
+
+## License
+This project is licensed under the MIT License - see the LICENSE.md file for details
+This project includes code from the [Adobe Extendscript debugger extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=Adobe.extendscript-debug) which uses the [Apache License, Version 2.0]*(http://www.apache.org/licenses/LICENSE-2.0)
+
+## Thanks
+
+- The implemention using VSCode ES debugger from Adobe was added by [Sammarks](https://github.com/sammarks)
+- Thanks to [RenderTom](https://github.com/rendertom) and [Zlovatt](https://github.com/zlovatt) for additional contributions

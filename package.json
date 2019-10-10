@@ -11,7 +11,7 @@
     "photoshop"
   ],
   "bugs": "https://github.com/runegan/jsxbin/issues",
-  "license": "ISC",
+  "license": "MIT",
   "author": "Rune Gangsø <runegan@gmail.com> (http://runegan.no)",
   "files": [
     "index.js",
@@ -32,7 +32,6 @@
     "command-line-usage": "^4.0.0",
     "glob": "^7.1.2",
     "mkdirp": "^0.5.1",
-    "tmp-promise": "^1.0.3",
     "winston": "^2.3.1"
   },
   "devDependencies": {
