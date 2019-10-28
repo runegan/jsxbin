@@ -13,3 +13,4 @@ node_modules/
 
 test/output
 esdebugger-core/*
+test/testfiles/test1.jsxbin
