@@ -17,7 +17,7 @@
     "index.js",
     "command.js",
     "src/*",
-    "esdebugger-core/*"
+    "esdebugger-core.tar.gz"
   ],
   "main": "index.js",
   "bin": {
@@ -25,7 +25,8 @@
   },
   "repository": "github:runegan/jsxbin",
   "scripts": {
-    "test": "eslint . && mocha"
+    "test": "eslint . && mocha",
+    "postinstall": "tar -xzf esdebugger-core.tar.gz"
   },
   "dependencies": {
     "command-line-args": "^4.0.4",
