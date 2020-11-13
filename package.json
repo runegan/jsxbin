@@ -17,7 +17,9 @@
     "index.js",
     "command.js",
     "src/*",
-    "esdebugger-core.tar.gz"
+    "esdebugger-core-mac.tar.gz",
+    "esdebugger-core-win.tar.gz",
+    "bin/*"
   ],
   "main": "index.js",
   "bin": {
