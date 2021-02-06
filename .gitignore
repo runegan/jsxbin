@@ -5,6 +5,7 @@ yarn-debug.log*
 yarn-error.log*
 
 *.tgz
+.vscode
 
 # Dependency directories
 node_modules/
