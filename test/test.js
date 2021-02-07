@@ -5,9 +5,6 @@ const jsxbin = require( '../' )
 const rimraf = require( 'rimraf' )
 
 describe( 'jsxbin', function () {
-	// ExtendScript Toolkit takes a while to convert files, so increate timeout
-	this.timeout( 12000 )
-
 	const outputDir = path.join( __dirname, 'output' )
 	const inputDir = path.join( __dirname, 'testfiles' )
 	const inputDir2 = path.join( __dirname, 'testfiles2' )
