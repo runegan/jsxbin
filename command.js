@@ -22,7 +22,7 @@ if ( options.debug ) {
 	log.level = 'debug'
 }
 
-log.debug('options', { options })
+log.debug( 'options', { options })
 
 if ( options.help ) {
 	showUsage()

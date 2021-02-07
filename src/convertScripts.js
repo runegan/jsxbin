@@ -1,6 +1,6 @@
 const path = require( 'path' )
 const fs = require( 'fs' )
-const log = require('./logger')
+const log = require( './logger' )
 
 function GetESDInterface() {
 	const platform = `${process.platform}`
@@ -48,7 +48,7 @@ function convertFileContents( scriptPath ) {
 
 	if ( content ) {
 		const apiData = GetESDInterface().esdCompileToJSXBin( content, scriptPath, includePath )
-		log.debug( 'Convert response', { apiData } )
+		log.debug( 'Convert response', { apiData })
 		if ( apiData.status === 0 ) {
 			return apiData.data
 		}
