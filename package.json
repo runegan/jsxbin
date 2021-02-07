@@ -38,10 +38,10 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "eslint": "^6.5.1",
-    "eslint-config-runegan": "^1.0.1",
+    "eslint": "^7.19.0",
+    "eslint-config-runegan": "^1.2.0",
     "mocha": "^6.2.1",
-    "mz": "^2.6.0",
+    "mz": "^2.7.0",
     "rimraf": "^2.6.1"
   },
   "os": [
