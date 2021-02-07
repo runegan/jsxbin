@@ -34,7 +34,7 @@ function jsxbin( inputPaths, outputPath ) {
 	}
 
 	// Debug some values
-	log.debug( 'Current dir', process.cwd() )
+	log.debug( `Current dir: ${process.cwd()}` )
 	log.debug( 'arguments', { inputPaths, outputPath })
 
 	// Store input and output globaly, because they need to be accesible later
@@ -52,7 +52,6 @@ function jsxbin( inputPaths, outputPath ) {
 			if ( outputPath === undefined ) {
 				outputPath = output[0]
 			}
-			log.verbose( 'Converting', input, 'to', output )
 		})
 
 	// We have to create the output folder if it does not exist

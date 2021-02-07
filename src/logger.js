@@ -1,13 +1,12 @@
 const winston = require( 'winston' )
-const logger = new ( winston.Logger )()
+const logger = winston.createLogger()
 
-logger.add( winston.transports.Console, {
-	prettyPrint: true,
-	colorize: true,
-	silent: false,
-	timestamp: false
-})
-
-logger.cli()
+logger.add( new winston.transports.Console({
+	format: winston.format.combine(
+		winston.format.padLevels(),
+		winston.format.colorize(),
+		winston.format.simple()
+	)
+}) )
 
 module.exports = logger

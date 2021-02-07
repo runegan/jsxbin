@@ -31,11 +31,11 @@
     "postinstall": "node bin/postinstall.js"
   },
   "dependencies": {
-    "command-line-args": "^4.0.4",
-    "command-line-usage": "^4.0.0",
-    "glob": "^7.1.2",
-    "mkdirp": "^0.5.1",
-    "winston": "^2.3.1"
+    "command-line-args": "^5.1.1",
+    "command-line-usage": "^6.1.1",
+    "glob": "^7.1.6",
+    "mkdirp": "^1.0.4",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "eslint": "^6.5.1",

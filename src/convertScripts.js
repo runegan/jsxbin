@@ -1,5 +1,6 @@
 const path = require( 'path' )
 const fs = require( 'fs' )
+const log = require('./logger')
 
 function GetESDInterface() {
 	const platform = `${process.platform}`
@@ -39,7 +40,7 @@ function convertFileContents( scriptPath ) {
 			content = content.replace( /^\uFEFF/, '' )
 		}
 	} catch ( error ) {
-		console.log( error )
+		log.error( error )
 		return null
 	}
 
@@ -47,6 +48,7 @@ function convertFileContents( scriptPath ) {
 
 	if ( content ) {
 		const apiData = GetESDInterface().esdCompileToJSXBin( content, scriptPath, includePath )
+		log.debug( 'Convert response', { apiData } )
 		if ( apiData.status === 0 ) {
 			return apiData.data
 		}
@@ -69,15 +71,17 @@ function initializeESDInterface() {
 }
 
 module.exports = function convertScripts( input, output ) {
+	log.verbose( 'Converting', { input, output })
 	initializeESDInterface()
 	for ( let i = 0; i < input.length; i++ ) {
 		const scriptPath = input[i]
 		const outputPath = output[i]
 		const compiledContent = convertFileContents( scriptPath )
 		if ( compiledContent ) {
+			log.verbose( 'Writing', { outputPath, compiledContent })
 			fs.writeFileSync( outputPath, compiledContent )
 		} else {
-			console.warn( `No compiled content found for '${scriptPath}'. Skipping.` )
+			log.warn( `No compiled content found for '${scriptPath}'. Skipping.` )
 		}
 	}
 }

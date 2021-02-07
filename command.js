@@ -22,7 +22,7 @@ if ( options.debug ) {
 	log.level = 'debug'
 }
 
-log.debug({ options })
+log.debug('options', { options })
 
 if ( options.help ) {
 	showUsage()
@@ -47,13 +47,13 @@ function showUsage() {
 				{
 					name: 'input',
 					alias: 'i',
-					typeLabel: '[underline]{file(s)}',
+					typeLabel: '{underline file(s)}',
 					description: 'The file or files to convert'
 				},
 				{
 					name: 'output',
 					alias: 'o',
-					typeLabel: '[underline]{file}|[underline]{folder}',
+					typeLabel: '{underline file}|{underline folder}',
 					description: 'The file or folder where the converted file will be placed'
 				},
 				{
