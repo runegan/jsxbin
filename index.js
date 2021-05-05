@@ -26,12 +26,16 @@ module.exports.getOutputPaths = getOutputPaths
  * @return {Promise} A Promise that returns an array of file paths to the
  *         converted files
  */
-function jsxbin( inputPaths, outputPath ) {
+function jsxbin( inputPaths, outputPath, preserveStructure = false ) {
 	if ( !Array.isArray( inputPaths ) && typeof inputPaths === 'object' ) {
 		const options = inputPaths
 		inputPaths = options.input
 		outputPath = options.output
 	}
+
+	// This is the basePath of the inputPath to make sure the nested directory 
+	// structure can be preserved in outputPath
+	const baseInputPath = path.dirname(path.join(process.cwd(), inputPaths[0]));
 
 	// Debug some values
 	log.debug( `Current dir: ${process.cwd()}` )
@@ -44,13 +48,17 @@ function jsxbin( inputPaths, outputPath ) {
 	// correct value, an array of absolute paths, that can be used in the
 	// ESTK script.
 	return getInputPaths( inputPaths )
-		.then( inputPaths => {
+		.then(async inputPaths => {
 			input = inputPaths
 
 			// We also have to convert outputPath into an array of absolute paths
-			output = getOutputPaths( input, outputPath )
+			output = getOutputPaths( input, outputPath, (preserveStructure ? baseInputPath : null) )
 			if ( outputPath === undefined ) {
 				outputPath = output[0]
+			}
+
+			if ( preserveStructure ) {
+				await createDir( output.map( outPath => path.dirname(outPath) ) );
 			}
 		})
 
@@ -109,7 +117,7 @@ function getInputPaths( inputPaths ) {
 	return Promise.all( globPromises ).then( () => allPaths )
 }
 
-function getOutputPaths( inputPaths, outputPath ) {
+function getOutputPaths( inputPaths, outputPath, baseInputPath ) {
 	const output = []
 
 	if ( Array.isArray( outputPath ) ) {
@@ -151,7 +159,13 @@ function getOutputPaths( inputPaths, outputPath ) {
 			// Replace the extension of the filename with jsxbin and put it
 			// in the output directory
 			const fileName = replaceExtension( filePath, 'jsxbin' )
-			output.push( path.join( outputPath, fileName ) )
+
+			if (baseInputPath) {
+				const subdirPath = path.dirname(filePath.replace(baseInputPath, ''))
+				output.push(path.join(outputPath, subdirPath, fileName))
+			} else {
+				output.push(path.join(outputPath, fileName))
+			}
 		})
 	}
 	return output

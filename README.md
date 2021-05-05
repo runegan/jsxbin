@@ -6,8 +6,9 @@ Convert jsx ExtendScript files into jsxbin
 
 ```javascript
 const jsxbin = require( 'jsxbin' )
+const preserveStructure = false; // Set TRUE to preserve directory structure in output
 
-jsxbin( 'path/to/script.js', 'output/script.jsxbin' )
+jsxbin( 'path/to/script.js', 'output/script.jsxbin', preserveStructure )
 	.then( outputfiles => {
 		console.log( 'Finished!' )
 	})
@@ -18,7 +19,7 @@ jsxbin( 'path/to/script.js', 'output/script.jsxbin' )
 
 ## Methods
 
-### jsxbin( inputPaths, [outputPath] )
+### jsxbin( inputPaths, [outputPath], [preserveStructure] )
 
 `inputPaths` can be:
 
@@ -34,6 +35,11 @@ jsxbin( 'path/to/script.js', 'output/script.jsxbin' )
 - Array of string paths of names for all converted files
 	- Should only be used when passing an array to `inputPaths`. Input and output arrays must be the same length.
 - If not given, the files will be created in the same directory as the input file(s)
+
+`preserveStructure`, optional `true|false` (default: `false`)
+
+- If preserveStructure is true, the original structure of the input files will be preserved in the output directory
+- This improvement was first added in v2.3.0 and is therefore default to `false` (to don't break any existing CI/CD scripts)
 
 `jsxbin` returns a promise with an array of file paths to the converted files
 
@@ -59,6 +65,12 @@ jsxbin( 'src/*jsx' )
 gulp.task( 'jsxbin', () => {
 	return jsxbin( 'src/index.js', 'output/script.jsxbin' )
 })
+
+// Recursive directory as a gulp task
+gulp.task( 'jsxbin', () => {
+	// Convert every .jsx file in the src directory and place them with same directory structure into output/
+	return jsxbin( 'src/**/*.jsx', 'output/', true )
+})
 ```
 
 ## From the Command Line
@@ -78,6 +90,7 @@ Options
   -i, --input   file(s)      The file or files to convert
   -o, --output  file|folder  The file or folder where the converted file will be placed
   -v, --verbose              Show more info while running
+  -p, --preserveStructure    Preserve the directory structure in output
   --debug                    Show even more info while running
   -h, --help                 Show help
 ```
