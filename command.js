@@ -8,6 +8,7 @@ const log = require( './src/logger' )
 const optionDefinitions = [
 	{ name: 'input', alias: 'i', type: String, multiple: true },
 	{ name: 'output', alias: 'o', type: String },
+	{ name: 'preserve', alias: 'p', type: Boolean },
 	{ name: 'verbose', alias: 'v', type: Boolean },
 	{ name: 'debug', type: Boolean },
 	{ name: 'help', alias: 'h', type: Boolean }
@@ -30,7 +31,7 @@ if ( options.help ) {
 	if ( !options.input || !options.output ) {
 		showUsage()
 	}
-	jsxbin( options.input, options.output )
+	jsxbin( options.input, options.output, options.preserve || false )
 		.catch( log.error )
 }
 
@@ -55,6 +56,11 @@ function showUsage() {
 					alias: 'o',
 					typeLabel: '{underline file}|{underline folder}',
 					description: 'The file or folder where the converted file will be placed'
+				},
+				{
+					name: 'preserve',
+					alias: 'p',
+					description: 'Preserve the directory structure in output (if input is a directory)'
 				},
 				{
 					name: 'verbose',
