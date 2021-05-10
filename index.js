@@ -33,9 +33,9 @@ function jsxbin( inputPaths, outputPath, preserveStructure = false ) {
 		outputPath = options.output
 	}
 
-	// This is the basePath of the inputPath to make sure the nested directory 
+	// This is the basePath of the inputPath to make sure the nested directory
 	// structure can be preserved in outputPath
-	const baseInputPath = path.dirname(path.join(process.cwd(), inputPaths[0]));
+	const baseInputPath = path.dirname( path.join( process.cwd(), inputPaths[0] ) )
 
 	// Debug some values
 	log.debug( `Current dir: ${process.cwd()}` )
@@ -48,17 +48,17 @@ function jsxbin( inputPaths, outputPath, preserveStructure = false ) {
 	// correct value, an array of absolute paths, that can be used in the
 	// ESTK script.
 	return getInputPaths( inputPaths )
-		.then(async inputPaths => {
+		.then( async inputPaths => {
 			input = inputPaths
 
 			// We also have to convert outputPath into an array of absolute paths
-			output = getOutputPaths( input, outputPath, (preserveStructure ? baseInputPath : null) )
+			output = getOutputPaths( input, outputPath, ( preserveStructure ? baseInputPath : null ) )
 			if ( outputPath === undefined ) {
 				outputPath = output[0]
 			}
 
 			if ( preserveStructure ) {
-				await createDir( output.map( outPath => path.dirname(outPath) ) );
+				await createDir( output.map( outPath => path.dirname( outPath ) ) )
 			}
 		})
 
@@ -160,11 +160,11 @@ function getOutputPaths( inputPaths, outputPath, baseInputPath ) {
 			// in the output directory
 			const fileName = replaceExtension( filePath, 'jsxbin' )
 
-			if (baseInputPath) {
-				const subdirPath = path.dirname(filePath.replace(baseInputPath, ''))
-				output.push(path.join(outputPath, subdirPath, fileName))
+			if ( baseInputPath ) {
+				const subdirPath = path.dirname( filePath.replace( baseInputPath, '' ) )
+				output.push( path.join( outputPath, subdirPath, fileName ) )
 			} else {
-				output.push(path.join(outputPath, fileName))
+				output.push( path.join( outputPath, fileName ) )
 			}
 		})
 	}
