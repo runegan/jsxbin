@@ -53,7 +53,7 @@ function jsxbin( inputPaths, outputPath ) {
 				if ( outputPath === undefined ) {
 					outputPath = output[0]
 				}
-			} )
+			})
 
 			// We have to create the output folder if it does not exist
 			.then( () => createDir( outputPath ) )
@@ -63,7 +63,7 @@ function jsxbin( inputPaths, outputPath ) {
 			.then( () => {
 				log.info( 'Finished!' )
 				return output
-			} )
+			})
 	)
 }
 
@@ -75,6 +75,7 @@ function getInputPaths( inputPaths ) {
 
 	// We are using glob to convert any pattern strings into asolute paths
 	const globOptions = {
+
 		// We do not want any folders to show up in the match, only files
 		nodir: true,
 
@@ -100,10 +101,10 @@ function getInputPaths( inputPaths ) {
 				// do not want. So push path values to a different array instead
 				allPaths.push.apply( allPaths, paths )
 				resolve()
-			} )
-		} )
+			})
+		})
 		globPromises.push( promise )
-	} )
+	})
 
 	// Wait for all glob paths to finish, then return all the paths
 	return Promise.all( globPromises ).then( () => allPaths )
@@ -125,7 +126,7 @@ function getOutputPaths( inputPaths, outputPath ) {
 		return inputPaths.map( filePath => {
 			const extension = path.extname( filePath )
 			return filePath.replace( extension, '.jsxbin' )
-		} )
+		})
 	}
 
 	// Check if outputPath is a file (ends with .jsxbin) or a directory
@@ -146,7 +147,7 @@ function getOutputPaths( inputPaths, outputPath ) {
 			// in the output directory
 			const fileName = replaceExtension( filePath, 'jsxbin' )
 			output.push( path.join( outputPath, fileName ) )
-		} )
+		})
 	}
 
 	return output
