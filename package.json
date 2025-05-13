@@ -32,18 +32,18 @@
     "postinstall": "node bin/postinstall.js"
   },
   "dependencies": {
-    "command-line-args": "^5.1.1",
-    "command-line-usage": "^6.1.1",
-    "glob": "^7.1.6",
-    "mkdirp": "^1.0.4",
-    "winston": "^3.3.3"
+    "command-line-args": "^6.0.1",
+    "command-line-usage": "^7.0.3",
+    "glob": "^11.0.2",
+    "mkdirp": "^3.0.1",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
-    "eslint": "^7.19.0",
+    "eslint": "^9.26.0",
     "eslint-config-runegan": "^1.2.0",
-    "mocha": "^8.2.1",
+    "mocha": "^11.2.2",
     "mz": "^2.7.0",
-    "rimraf": "^3.0.2"
+    "rimraf": "^6.0.1"
   },
   "os": [
     "darwin",

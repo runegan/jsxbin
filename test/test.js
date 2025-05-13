@@ -2,7 +2,7 @@ const fs = require( 'mz/fs' )
 const path = require( 'path' )
 const assert = require( 'assert' )
 const jsxbin = require( '../' )
-const rimraf = require( 'rimraf' )
+const { rimraf } = require( 'rimraf' )
 
 describe( 'jsxbin', function () {
 	const outputDir = path.join( __dirname, 'output' )
@@ -10,7 +10,7 @@ describe( 'jsxbin', function () {
 	const inputDir2 = path.join( __dirname, 'testfiles2' )
 
 	function cleanup( done ) {
-		rimraf( outputDir, () => {
+		rimraf( outputDir ).then( () => {
 			done()
 		})
 	}

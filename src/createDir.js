@@ -1,5 +1,5 @@
 const path = require( 'path' )
-const mkdirp = require( 'mkdirp' )
+const fs = require( 'fs' ).promises
 
 const log = require( './logger' )
 
@@ -12,11 +12,10 @@ module.exports = function createDirs( pathsToCreate ) {
 	return Promise.all( promises )
 }
 
-
 function createDir( pathToCreate ) {
 	log.debug( 'creating output dir', { pathToCreate })
 
-	// Check if it is a file or a direcory
+	// Check if it is a file or a directory
 	if ( /\.jsxbin$/.test( pathToCreate ) ) {
 		// If it is a file, get the parent folder
 		log.debug( 'Is not dir', { pathToCreate })
@@ -26,5 +25,5 @@ function createDir( pathToCreate ) {
 
 	// Create the output directory, and any directories that do not exist
 	log.verbose( 'Creating output directory', { pathToCreate })
-	return mkdirp( pathToCreate )
+	return fs.mkdir( pathToCreate, { recursive: true })
 }

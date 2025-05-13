@@ -2,7 +2,7 @@
 
 // Require modules
 const path = require( 'path' )
-const glob = require( 'glob' )
+const { glob } = require( 'glob' ) // Updated import for glob
 
 const log = require( './src/logger' )
 const createDir = require( './src/createDir' )
@@ -37,7 +37,7 @@ function jsxbin( inputPaths, outputPath ) {
 	log.debug( `Current dir: ${process.cwd()}` )
 	log.debug( 'arguments', { inputPaths, outputPath })
 
-	// Store input and output globaly, because they need to be accesible later
+	// Store input and output globally, because they need to be accessible later
 	let input, output
 
 	// "inputPaths" can be different things, so we need to convert it to the
@@ -67,13 +67,13 @@ function jsxbin( inputPaths, outputPath ) {
 	)
 }
 
-function getInputPaths( inputPaths ) {
+async function getInputPaths( inputPaths ) {
 	// We are going to loop through all input paths, so make sure it is an array
 	if ( !Array.isArray( inputPaths ) ) {
 		inputPaths = [ inputPaths ]
 	}
 
-	// We are using glob to convert any pattern strings into asolute paths
+	// We are using glob to convert any pattern strings into absolute paths
 	const globOptions = {
 
 		// We do not want any folders to show up in the match, only files
@@ -84,30 +84,13 @@ function getInputPaths( inputPaths ) {
 		absolute: true
 	}
 
-	const allPaths = []
+	// Use Promise.all to resolve all glob patterns
+	const allPaths = await Promise.all(
+		inputPaths.map( pattern => glob( pattern, globOptions ) )
+	)
 
-	// Glob is async, and we are looping, so we need to store all promises and
-	// wait for them to finish
-	const globPromises = []
-	inputPaths.forEach( pattern => {
-		const promise = new Promise( ( resolve, reject ) => {
-			glob( pattern, globOptions, ( err, paths ) => {
-				if ( err ) {
-					return reject( err )
-				}
-
-				// Promise.all merges all promise values into an array,
-				// paths is an array, and that would make a 2D array, which we
-				// do not want. So push path values to a different array instead
-				allPaths.push.apply( allPaths, paths )
-				resolve()
-			})
-		})
-		globPromises.push( promise )
-	})
-
-	// Wait for all glob paths to finish, then return all the paths
-	return Promise.all( globPromises ).then( () => allPaths )
+	// Flatten the array of arrays into a single array
+	return allPaths.flat()
 }
 
 function getOutputPaths( inputPaths, outputPath ) {
