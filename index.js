@@ -43,26 +43,28 @@ function jsxbin( inputPaths, outputPath ) {
 	// "inputPaths" can be different things, so we need to convert it to the
 	// correct value, an array of absolute paths, that can be used in the
 	// ESTK script.
-	return getInputPaths( inputPaths )
-		.then( inputPaths => {
-			input = inputPaths
+	return (
+		getInputPaths( inputPaths )
+			.then( inputPaths => {
+				input = inputPaths
 
-			// We also have to convert outputPath into an array of absolute paths
-			output = getOutputPaths( input, outputPath )
-			if ( outputPath === undefined ) {
-				outputPath = output[0]
-			}
-		})
+				// We also have to convert outputPath into an array of absolute paths
+				output = getOutputPaths( input, outputPath )
+				if ( outputPath === undefined ) {
+					outputPath = output[0]
+				}
+			})
 
-	// We have to create the output folder if it does not exist
-		.then( () => createDir( outputPath ) )
+			// We have to create the output folder if it does not exist
+			.then( () => createDir( outputPath ) )
 
-	// Convert the script using the resources from the VSCode extension.
-		.then( () => convertScripts( input, output ) )
-		.then( () => {
-			log.info( 'Finished!' )
-			return output
-		})
+			// Convert the script using the resources from the VSCode extension.
+			.then( () => convertScripts( input, output ) )
+			.then( () => {
+				log.info( 'Finished!' )
+				return output
+			})
+	)
 }
 
 function getInputPaths( inputPaths ) {
@@ -80,7 +82,6 @@ function getInputPaths( inputPaths ) {
 		// All paths should be absolute, because the script in ESTK will not be
 		// executed from the same place as the converted files are located
 		absolute: true
-
 	}
 
 	const allPaths = []
@@ -114,7 +115,9 @@ function getOutputPaths( inputPaths, outputPath ) {
 
 	if ( Array.isArray( outputPath ) ) {
 		if ( outputPath.length !== inputPaths.length ) {
-			throw new Error( 'jsxbin error: When passing an array as output it must have the same length as number of files in input' )
+			throw new Error(
+				'jsxbin error: When passing an array as output it must have the same length as number of files in input'
+			)
 		}
 		return outputPath
 	}
@@ -126,27 +129,19 @@ function getOutputPaths( inputPaths, outputPath ) {
 		})
 	}
 
-	// Check if outputPath is directory
+	// Check if outputPath is a file (ends with .jsxbin) or a directory
 	if ( /\.jsxbin$/.test( outputPath ) ) {
 		// "outputPath" is a file
-		// We need output to be an array with the same length of the input
-		inputPaths.forEach( () => {
-			// FIXME: this will cause all output files to have the same name
-			// if there are multiple input files
+		// We only allow single file output for single file input
+		if ( inputPaths.length === 1 ) {
 			output.push( outputPath )
-		})
-
-		// "outputPath" is a directory
-
-		inputPaths.forEach( filePath => {
-			// Replace the extension of the filename with jsxbin and put it
-			// in the output directory
-			const fileName = replaceExtension( filePath, 'jsxbin' )
-			output.push( path.join( outputPath, fileName ) )
-		})
-
-	// "outputPath" is a directory
+		} else {
+			throw new Error(
+				'jsxbin error: When outputPath is a file, only one input file is allowed'
+			)
+		}
 	} else {
+		// "outputPath" is a directory
 		inputPaths.forEach( filePath => {
 			// Replace the extension of the filename with jsxbin and put it
 			// in the output directory
@@ -154,6 +149,7 @@ function getOutputPaths( inputPaths, outputPath ) {
 			output.push( path.join( outputPath, fileName ) )
 		})
 	}
+
 	return output
 }
 

@@ -47,22 +47,33 @@ function convertFileContents( scriptPath ) {
 	const includePath = path.dirname( scriptPath )
 
 	if ( content ) {
-		const apiData = GetESDInterface().esdCompileToJSXBin( content, scriptPath, includePath )
+		const apiData = GetESDInterface().esdCompileToJSXBin(
+			content,
+			scriptPath,
+			includePath
+		)
 		log.debug( 'Convert response', { apiData })
+
 		if ( apiData.status === 0 ) {
-			return apiData.data
+			// Return data or output (from VS Code extension)
+			return apiData.data || apiData.output
 		}
 
 		getESDError()
 	}
+
+	return null
 }
 
 let initialized = false
 
 function initializeESDInterface() {
 	if ( !initialized ) {
-		const initData = GetESDInterface().esdInit()
-		if ( initData.status === 0 ) {
+		// Pass required parameters for esdInitialize
+		const initData = GetESDInterface().esdInitialize( 'jsxbin', process.pid )
+
+		// Accept SUCCESS (0) or ALREADY_INITIALIZED (11)
+		if ( initData.status === 0 || initData.status === 11 ) {
 			initialized = true
 		} else {
 			getESDError()
